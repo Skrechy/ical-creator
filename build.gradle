@@ -13,6 +13,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     // https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j
     compile group: 'org.mnode.ical4j', name: 'ical4j', version: '1.0.2'
-
+    compile 'org.apache.poi:poi-ooxml:3.15'
 
 }
