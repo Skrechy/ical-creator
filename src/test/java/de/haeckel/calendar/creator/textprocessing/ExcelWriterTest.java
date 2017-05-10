@@ -2,8 +2,6 @@ package de.haeckel.calendar.creator.textprocessing;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by skrec on 09.05.2017.
  */
@@ -24,7 +22,7 @@ public class ExcelWriterTest {
 
         writer.writeToSheet(datatypes);
 
-        writer.export();
+        writer.exportData();
 
     }
 }

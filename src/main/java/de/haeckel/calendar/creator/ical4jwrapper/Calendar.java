@@ -134,7 +134,7 @@ public class Calendar {
 
     /**
      * Export the calendar to ics file at the given location (must end on filename.ics!)
-     * @param filepath filepath to export to
+     * @param filepath filepath to exportData to
      */
     public void exportToICS (String filepath){
         // Add the events

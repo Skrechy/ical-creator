@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Uses AdobePOI for Excel to create a workbook and write it to a file.
+ * Uses ApachePOI for Excel to create a workbook and write it to a file.
  */
 public class ExcelWriter {
 
@@ -94,15 +94,15 @@ public class ExcelWriter {
     /**
      * Export the data to a default filepath.
      */
-    public void export (){
-        export(DEF_FILE_NAME);
+    public void exportData(){
+        exportData(DEF_FILE_NAME);
     }
 
     /**
      * Export the excel workbook to the filepath.
      * @param filepath
      */
-    private void export(String filepath) {
+    public void exportData(String filepath) {
         try {
             FileOutputStream outputStream = new FileOutputStream(filepath);
             workbook.write(outputStream);
