@@ -1,5 +1,6 @@
 package de.haeckel.calendar.creator.textprocessing;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -115,6 +116,9 @@ public class ExcelReader {
                     ret = currentCell.getStringCellValue();
                 } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
                     ret = currentCell.getNumericCellValue();
+                    if(HSSFDateUtil.isCellDateFormatted(currentCell)){
+                        ret = currentCell.getDateCellValue();
+                    }
                 } else if (currentCell.getCellTypeEnum() == CellType.BOOLEAN) {
                     ret = currentCell.getBooleanCellValue();
                 } else if (currentCell.getCellTypeEnum() == CellType.FORMULA) {
@@ -128,6 +132,10 @@ public class ExcelReader {
         return data;
     }
 
+    public boolean isInitialized(){
+        return workbookHasSheets();
+    }
+
     @Override
     public String toString() {
         if(!workbookHasSheets()) {
@@ -136,7 +144,7 @@ public class ExcelReader {
 
         Object [][] obj = readFromSheet();
         String ret = "ExcelReader{";
-        System.out.println(obj.length + " x " + obj[0].length);
+
         for (int i = 0; i < obj.length; i++){
             ret += "\n";
             for (int j = 0; j < obj[i].length; j++){
@@ -150,16 +158,5 @@ public class ExcelReader {
         ret += "\n}";
 
         return ret;
-    }
-
-    public static void main(String[] args) {
-
-        ExcelReader reader = new ExcelReader();
-
-        reader.importData();
-
-        Object o = reader.readFromSheet();
-
-        System.out.println(reader.toString());
     }
 }
