@@ -1,4 +1,4 @@
-package de.haeckel.calendar.creator.textprocessing;
+package de.haeckel.calendar.creator.excelprocessing;
 
 import org.junit.Test;
 

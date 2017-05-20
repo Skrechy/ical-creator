@@ -1,8 +1,6 @@
-package de.haeckel.calendar.creator.textprocessing;
+package de.haeckel.calendar.creator.excelprocessing;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by TimoHäckel on 19.05.2017.

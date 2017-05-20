@@ -1,4 +1,4 @@
-package de.haeckel.calendar.creator.textprocessing;
+package de.haeckel.calendar.creator.excelprocessing;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -18,6 +18,14 @@ public class ExcelReader {
 
     private static final String DEF_FILE_NAME = "newfile.xlsx";
     private XSSFWorkbook workbook;
+
+    public ExcelReader() {
+        importData();
+    }
+
+    public ExcelReader(String filepath) {
+        importData (filepath);
+    }
 
     /**
      * Import the data from a default filepath.

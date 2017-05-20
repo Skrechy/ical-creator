@@ -2,6 +2,7 @@ package de.haeckel.calendar.creator.ical4jwrapper;
 
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.*;
+import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.UidGenerator;
@@ -10,8 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Wrapper for the fortuna ical4j library.
@@ -103,6 +104,10 @@ public class Calendar {
         DateTime end = new DateTime(endDate.getTime());
         VEvent event = new VEvent(start, end, eventName);
 
+        return createEvent(event);
+    }
+
+    public String createEvent(VEvent event){
         // append timezone
         event.getProperties().add(timeZone.getVTimeZone().getTimeZoneId());
 
@@ -116,7 +121,7 @@ public class Calendar {
             uid = uniqueId.getValue();
         } catch (SocketException e) {
             //need to create a backup id
-            uid = PRODID + "BackupID-" + eventName + "@" + start.toString() + "%" + end.toString();
+            uid = PRODID + "BackupID-" + event.getName() + "@" + event.getStartDate().toString() + "%" + event.getEndDate().toString();
         }
 
         // add to map
@@ -178,4 +183,43 @@ public class Calendar {
         return icsCalendar.toString();
     }
 
+    public String createEvent(String summary, Date start, int duration, String location, String info) {
+
+        DateTime starting = new DateTime(start);
+        //add durcation to starting time..
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(start);
+        cal.add(java.util.Calendar.HOUR_OF_DAY,duration);
+        DateTime ending = new DateTime(cal.getTime());
+
+        //create event
+        VEvent event = new VEvent(starting, ending, summary);
+
+        // append timezone
+        event.getProperties().add(timeZone.getVTimeZone().getTimeZoneId());
+
+        // generate unique identifier..
+        String uid;
+        try {
+            UidGenerator ug = new UidGenerator(PRODID);
+            Uid uniqueId = ug.generateUid();
+            event.getProperties().add(uniqueId);
+            //safe to string
+            uid = uniqueId.getValue();
+        } catch (SocketException e) {
+            //need to create a backup id
+            uid = PRODID + "BackupID-" + event.getName() + "@" + event.getStartDate().toString() + "%" + event.getEndDate().toString();
+        }
+
+        //add location
+        event.getProperties().add(new Location(location));
+
+        //add info
+        event.getProperties().add(new Description(info));
+
+        // add to map
+        vEvents.put(uid, event);
+
+        return uid;
+    }
 }
